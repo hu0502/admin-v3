@@ -56,13 +56,7 @@ class Http {
         const token = localStorage.getItem('token')
         config.headers = config.headers || {}
         if(token) {
-            console.log(token);
-            // && token != 'undefined'
             config.headers.token = token
-        }else{
-          return router.replace({
-            name: 'UserLogin'
-          })
         }
         return config
       },

@@ -6,6 +6,7 @@ npm install
 npm run serve
 ```
 
+<<<<<<< HEAD
 ## 技术栈
 + vue - 3.2.13
 + Element Plus - 2.1.11
@@ -20,3 +21,10 @@ npm run serve
 + http : api
 + types : 类、实例
 + views : 页面模板
+=======
+### Compiles and minifies for production
+```
+npm run build
+```
+### vue3-ts-admin demo
+>>>>>>> 21cc867261cc854e244464817ccf5ad7ade8d313

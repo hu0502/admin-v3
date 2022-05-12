@@ -1,6 +1,6 @@
 <template>
     <el-container class="container">
-        <el-header height="80px">
+        <el-header height="80px" style="width: 100%;">
             <el-row :gutter="20">
                 <el-col :span="4">
                     <img class="logo" src="@/assets/logo.png" alt="logo">
@@ -9,7 +9,7 @@
                     <h2>后台管理系统</h2>
                 </el-col>
                 <el-col class="btn-text" :span="4">
-                    <el-button type="text">Five</el-button>
+                    <el-avatar :src="info.avatar">{{ info.avatar ? '' : info.name }}</el-avatar>
                 </el-col>
             </el-row>
         </el-header>
@@ -25,7 +25,7 @@
                             <span>{{ i.parent_title }}</span>
                         </template>
                         <el-menu-item v-for="j in i.children" :key="j.path" :route="j" :index="j.path">
-                            <i v-if="j.meta.icon && j.meta.icon.includes('el-icon')" :class="j.meta.icon"></i> 
+                            <i v-if="j.meta.icon && j.meta.icon.includes('el-icon')" :class="j.meta.icon"></i>
                             <component class="icons" :is="j.meta.icon"></component>
                             <span>{{ j.meta.title }}</span>
                         </el-menu-item>
@@ -40,9 +40,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { useRouter } from "vue-router";
 import { MENU_GROUP } from '@/enum/home/home'
+import { getUserInfo } from '@/http/api/user/user.api';
+import { CUserList } from '@/types/user/userlist';
+import { setItem } from '@/store/storage';
 
 export default defineComponent({
     name: 'HomeView',
@@ -60,9 +63,23 @@ export default defineComponent({
             menuGroupList.push(obj)
         }
 
+        const userInfo = reactive(new CUserList())
+        onMounted(() => {
+            getInfo()
+        })
+
+        const getInfo = () => {
+            getUserInfo().then((res) => {
+                if (res.code === 200) {
+                    userInfo.info = res.data;
+                    setItem('userInfo', res.data);
+                }
+            })
+        }
         return {
             list,
-            menuGroupList
+            menuGroupList,
+            ...toRefs(userInfo)
         }
     }
 
@@ -85,14 +102,9 @@ export default defineComponent({
     }
 
     .btn-text {
-        text-align: right;
-        height: 80px;
-        line-height: 80px;
-        padding-right: 100px;
-
-        .el-button--text {
-            color: #fff;
-        }
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
     }
 
     .el-header {
@@ -104,8 +116,9 @@ export default defineComponent({
             height: calc(100vh - 80px);
         }
     }
+
     //图标样式
-    .icons{
+    .icons {
         height: 1em;
         width: 1em;
         line-height: 1em;

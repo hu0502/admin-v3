@@ -16,7 +16,6 @@
 </template>
 
 <script lang="ts">
-
 import { defineComponent, reactive, toRefs } from "vue";
 import { LoginFormClass } from '@/types/user/login'
 import { userLogin } from '@/http/api/user/user.api';
@@ -27,6 +26,7 @@ export default defineComponent({
     setup() {
         const router = useRouter();
         const data = reactive(new LoginFormClass())
+        
         const rules = {
             username: [
                 { required: true, message: '请输入账号', trigger: 'blur' },
@@ -40,13 +40,11 @@ export default defineComponent({
         const submitForm = () => {
             data.loginFormRef?.validate((valid: boolean) => {
                 if (valid) {
-                    console.log(data.loginForm);
                     userLogin(data.loginForm).then((res) => {
-                        console.log(res);
                         if(res.code === 200){
-                            ElMessage.success(res.msg)
-                            localStorage.setItem('token', res.token)
-                            router.push('/')
+                            ElMessage.success(res.msg);
+                            localStorage.setItem('token',res.token);
+                            router.push('/');
                         }else{
                             ElMessage.error(res.msg)
                         }

@@ -66,7 +66,7 @@ export class CUserList {
     editInfoFormRef = ref<FormInstance>()
 
     //显示删除用户
-    isShowDel = false
+    isShowDel: boolean = false
      //删除用户
     delInfo:DelInfoInt = {
         id: 0

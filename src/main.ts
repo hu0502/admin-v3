@@ -1,10 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-
+import { createPinia, storeToRefs } from 'pinia'
+import { userStoreInstance } from '@/store/user'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 const app = createApp(App)
@@ -15,8 +15,8 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
  * 路由拦截
  */
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('token');
-  console.log(token);
+  const userStore = userStoreInstance()
+  const { token } = storeToRefs(userStore)
   if (to.meta.auth) {
     if (!token) {
       return router.replace({
@@ -28,4 +28,5 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
-app.use(store).use(ElementPlus).use(router).mount('#app')
+app.use(createPinia()).use(ElementPlus).use(router).mount('#app')
+

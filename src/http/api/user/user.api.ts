@@ -2,12 +2,13 @@ import api from '@/http/config/api'
 
 import { IAddUser, EditInfoInt, DelInfoInt } from '@/types/user/userlist';
 import { ILoginForm } from '@/types/user/login';
-import { IGetInfoType, IInfoType, IResType, IUserListType } from '@/types/user/api_types';
+import { IGetInfoType, IInfoType, IResType, IUserListType } from '@/types/user/common'
 
 //用户登录
 export const userLogin = (data: ILoginForm) => api.post<IResType>({
     url: "/Users/login",
-    data: data
+    data: data,
+    showLoading: false
 })
 
 //用户注册

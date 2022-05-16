@@ -18,15 +18,19 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from "vue";
 import { LoginFormClass } from '@/types/user/login'
-import { userLogin } from '@/http/api/user/user.api';
-import { useRouter } from "vue-router";
-import { ElMessage } from 'element-plus'
+import { useRoute, useRouter } from "vue-router";
+import { userStoreInstance } from "@/store/user";
+import { userLogin } from "@/http/api/user/user.api";
+import { ElMessage } from "element-plus";
+
 export default defineComponent({
     name: 'UserLogin',
     setup() {
         const router = useRouter();
+        const route = useRoute()
+        const userStore = userStoreInstance()
         const data = reactive(new LoginFormClass())
-        
+
         const rules = {
             username: [
                 { required: true, message: '请输入账号', trigger: 'blur' },
@@ -37,24 +41,29 @@ export default defineComponent({
                 { min: 6, max: 24, message: '密码长度为6-24个字符', trigger: 'blur' },
             ]
         }
+
         const submitForm = () => {
-            data.loginFormRef?.validate((valid: boolean) => {
+            data.loginFormRef?.validate(async (valid: boolean) => {
                 if (valid) {
-                    userLogin(data.loginForm).then((res) => {
-                        if(res.code === 200){
+                    userLogin(data.loginForm).then(res => {
+                        if (res.code === 200) {
+                            userStore.SET_TOKEN(res.token)
                             ElMessage.success(res.msg);
-                            localStorage.setItem('token',res.token);
-                            router.push('/');
-                        }else{
+                            let redirect = route.query.redirect || '/'
+                            if (typeof redirect !== 'string') {
+                                redirect = '/'
+                            }
+                            router.replace(redirect)
+                        } else {
                             ElMessage.error(res.msg)
                         }
-                    }).catch((err) => {
-                        console.log(err);
-                    });
+                    }).catch(err => {
+                        return ElMessage.error('系统错误 ')
+                    })
                 } else {
                     console.log('error');
                 }
-            }) 
+            })
         }
         return {
             ...toRefs(data),

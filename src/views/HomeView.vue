@@ -9,7 +9,19 @@
                     <h2>后台管理系统</h2>
                 </el-col>
                 <el-col class="btn-text" :span="4">
-                    <el-avatar :src="info.avatar">{{ info.avatar ? '' : info.name }}</el-avatar>
+                    <el-dropdown trigger="click">
+                        <div class="el-dropdown-link">
+                            <el-avatar :src="userInfo.avatar">{{ userInfo.avatar ? '' : userInfo.name }}</el-avatar>
+                            <el-icon class="el-icon--right">
+                                <arrow-down color="#fff" />
+                            </el-icon>
+                        </div>
+                        <template #dropdown>
+                            <el-dropdown-menu>
+                                <el-dropdown-item @click="dialogVisible = true">注销登录</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </template>
+                    </el-dropdown>
                 </el-col>
             </el-row>
         </el-header>
@@ -37,54 +49,50 @@
             </el-main>
         </el-container>
     </el-container>
+    <el-dialog v-model="dialogVisible" title="提示" width="30%">
+        <span>确定退出登录当前用户？</span>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button type="primary" @click="LogOut">确定</el-button>
+            </span>
+        </template>
+    </el-dialog>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, reactive, toRefs } from 'vue'
-import { useRouter } from "vue-router";
-import { MENU_GROUP } from '@/enum/home/home'
-import { getUserInfo } from '@/http/api/user/user.api';
-import { CUserList } from '@/types/user/userlist';
-import { setItem } from '@/store/storage';
+<script lang="ts" setup>
+    import { useRouter } from "vue-router";
+    import { MENU_GROUP } from '@/enum/home/home'
+    import { userStoreInstance } from '@/store/user'
+    import { storeToRefs } from 'pinia';
+    import { ref } from "vue";
 
-export default defineComponent({
-    name: 'HomeView',
-    setup() {
-        const router = useRouter();
-        const list = router.getRoutes().filter(v => v.meta.group)
-        let menuGroupList: any[] = []
-        for (const key in MENU_GROUP) {
-            const keyToAny: any = key
-            const obj = {
-                parent_group: keyToAny,
-                parent_title: MENU_GROUP[keyToAny],
-                children: list.filter(item => item.meta.group == keyToAny)
-            }
-            menuGroupList.push(obj)
-        }
+    const router = useRouter();
 
-        const userInfo = reactive(new CUserList())
-        onMounted(() => {
-            getInfo()
-        })
-
-        const getInfo = () => {
-            getUserInfo().then((res) => {
-                if (res.code === 200) {
-                    userInfo.info = res.data;
-                    setItem('userInfo', res.data);
-                }
-            })
+    const userStore = userStoreInstance()
+    const list = router.getRoutes().filter(v => v.meta.group)
+    let menuGroupList: any[] = []
+    for (const key in MENU_GROUP) {
+        const keyToAny: any = key
+        const obj = {
+            parent_group: keyToAny,
+            parent_title: MENU_GROUP[keyToAny],
+            children: list.filter(item => item.meta.group == keyToAny)
         }
-        return {
-            list,
-            menuGroupList,
-            ...toRefs(userInfo)
-        }
+        menuGroupList.push(obj)
     }
+    const { userInfo } = storeToRefs(userStore)
+    const dialogVisible = ref(false)
 
-})
-
+    const LogOut = () => {
+        userStore.LOG_OUT();
+        dialogVisible.value = false
+        setTimeout(() => {
+            router.replace({
+                name: 'UserLogin'
+            })
+        }, 1000);
+    }
 </script>
 
 <style lang="scss" scoped>
@@ -96,7 +104,7 @@ export default defineComponent({
 
     h2 {
         text-align: center;
-        color: #fff;
+        color: white;
         height: 80px;
         line-height: 80px;
     }
@@ -105,6 +113,18 @@ export default defineComponent({
         display: flex;
         align-items: center;
         justify-content: flex-end;
+
+        .el-dropdown-link {
+            cursor: pointer;
+            // color: var(--el-color-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .el-icon--right {
+            margin-left: 15px;
+        }
     }
 
     .el-header {
@@ -124,5 +144,7 @@ export default defineComponent({
         line-height: 1em;
         margin-right: 5px;
     }
+
+
 }
 </style>

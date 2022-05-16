@@ -20,6 +20,16 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/UserView/UserList.vue')
       },
       {
+        path: '/User/UserInfo',
+        name: 'UserInfo',
+        meta: {
+          group: 'User',
+          title: '个人信息',
+          icon: 'Avatar'
+        },
+        component: () => import('@/views/UserView/UserInfo.vue')
+      },
+      {
         path: '/Order/OrderList',
         name: 'OrderList',
         meta: {

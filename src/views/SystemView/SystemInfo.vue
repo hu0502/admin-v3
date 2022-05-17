@@ -1,20 +1,9 @@
 <template>
-    <div>
-        系统信息
-    </div>
+    <div>系统设置</div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-export default defineComponent({
-    name: 'SystemInfo',
-    setup() {
-        return {
-        }
-    }
-
-})
+<script lang="ts" setup>
 </script>
 
-<style lang="scss">
+<style scoped>
 </style>

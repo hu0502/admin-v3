@@ -27,19 +27,18 @@
         </el-header>
         <el-container>
             <el-aside width="200px">
-                <el-menu router active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo"
-                    :default-active="menuGroupList[0].parent_title" text-color="#fff">
-                    <el-sub-menu :index="i.parent_title" v-for="i in menuGroupList">
+                <el-menu router active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" text-color="#fff">
+                    <!-- :default-active="menuGroupList[0].meta.title" -->
+                    <el-sub-menu :index="item.name" v-for="(item,index) in menuGroupList">
                         <template #title>
-                            <el-icon>
-                                <avatar />
-                            </el-icon>
-                            <span>{{ i.parent_title }}</span>
+                            <i v-if="item.meta.icon && item.meta.icon.includes('el-icon')" :class="item.meta.icon"></i>
+                            <component class="icons" :is="item.meta.icon"></component>
+                            <span>{{ item.meta.title }}</span>
                         </template>
-                        <el-menu-item v-for="j in i.children" :key="j.path" :route="j" :index="j.path">
-                            <i v-if="j.meta.icon && j.meta.icon.includes('el-icon')" :class="j.meta.icon"></i>
-                            <component class="icons" :is="j.meta.icon"></component>
-                            <span>{{ j.meta.title }}</span>
+                        <el-menu-item v-for="child in item.children" :key="child.path" :route="child" :index="child.path">
+                            <i v-if="child.meta.icon && child.meta.icon.includes('el-icon')" :class="child.meta.icon"></i>
+                            <component class="icons" :is="child.meta.icon"></component>
+                            <span>{{ child.meta.title }}</span>
                         </el-menu-item>
                     </el-sub-menu>
                 </el-menu>
@@ -62,28 +61,16 @@
 
 <script lang="ts" setup>
     import { useRouter } from "vue-router";
-    import { MENU_GROUP } from '@/enum/home/home'
     import { userStoreInstance } from '@/store/user'
     import { storeToRefs } from 'pinia';
     import { ref } from "vue";
-
     const router = useRouter();
-
     const userStore = userStoreInstance()
-    const list = router.getRoutes().filter(v => v.meta.group)
     let menuGroupList: any[] = []
-    for (const key in MENU_GROUP) {
-        const keyToAny: any = key
-        const obj = {
-            parent_group: keyToAny,
-            parent_title: MENU_GROUP[keyToAny],
-            children: list.filter(item => item.meta.group == keyToAny)
-        }
-        menuGroupList.push(obj)
-    }
+    menuGroupList = router.getRoutes().filter(v => v.meta.level === 0);
+    
     const { userInfo } = storeToRefs(userStore)
     const dialogVisible = ref(false)
-
     const LogOut = () => {
         userStore.LOG_OUT();
         dialogVisible.value = false

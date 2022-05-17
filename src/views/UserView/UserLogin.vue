@@ -49,11 +49,14 @@ export default defineComponent({
                         if (res.code === 200) {
                             userStore.SET_TOKEN(res.token)
                             ElMessage.success(res.msg);
-                            let redirect = route.query.redirect || '/'
-                            if (typeof redirect !== 'string') {
-                                redirect = '/'
-                            }
-                            router.replace(redirect)
+                            setTimeout(()=>{
+                                let redirect = route.query.redirect || '/'
+                                if (typeof redirect !== 'string') {
+                                    redirect = '/'
+                                }
+                                router.replace(redirect)
+                            },1000)
+                            
                         } else {
                             ElMessage.error(res.msg)
                         }

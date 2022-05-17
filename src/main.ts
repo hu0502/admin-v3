@@ -17,7 +17,7 @@ router.beforeEach((to, from, next) => {
   const userStore = userStoreInstance()
   const { token } = storeToRefs(userStore)
   if (to.meta.auth) {
-    if (!token) {
+    if (!token.value) {
       return router.replace({
         name: 'UserLogin'
       })

@@ -6,7 +6,7 @@ import { ElMessage } from 'element-plus';
 import { TOKEN, USERINFO } from '@/utils/constants';
 
 interface UserState {
-    token: string
+    token: string | null
     userInfo: IUserList
 }
 export const userStoreInstance = defineStore('main', {
@@ -22,7 +22,7 @@ export const userStoreInstance = defineStore('main', {
         },
     },
     actions: {
-        SET_TOKEN(value: string) {
+        SET_TOKEN(value: string | null) {
             this.token = value
             setItem(TOKEN, value)
             this.getUserInfo()

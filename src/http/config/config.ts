@@ -3,7 +3,7 @@ import type { AxiosInstance, AxiosRequestConfig } from 'axios'
 
 import { ElLoading } from 'element-plus/lib/components/loading/index'
 import { LoadingInstance } from 'element-plus/lib/components/loading/src/loading'
-import router from '@/router/index'
+
 //自定义拦截器类型
 interface customInterceptorType {
   requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig

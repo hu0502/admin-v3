@@ -18,8 +18,8 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from "vue";
 import { LoginFormClass } from '@/types/user/login'
-import { useRoute, useRouter } from "vue-router";
-import { userStoreInstance } from "@/store/user";
+import { useRoute, useRouter } from "vue-router"
+import { userStoreInstance } from '@/store/user'
 import { userLogin } from "@/http/api/user/user.api";
 import { ElMessage } from "element-plus";
 

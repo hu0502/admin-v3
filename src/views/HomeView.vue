@@ -64,6 +64,7 @@
     import { userStoreInstance } from '@/store/user'
     import { storeToRefs } from 'pinia';
     import { ref } from "vue";
+    import { ElMessage } from "element-plus";
     const router = useRouter();
     const userStore = userStoreInstance()
     let menuGroupList: any[] = []
@@ -74,6 +75,7 @@
     const LogOut = () => {
         userStore.LOG_OUT();
         dialogVisible.value = false
+        ElMessage.success('您已成功注销登录')
         setTimeout(() => {
             router.replace({
                 name: 'UserLogin'

@@ -13,22 +13,26 @@ export interface IUserList {
     avatar: string
 }
 //新增用户 参数
-export interface IAddUser{
+export interface IAddUser {
     name: string,
-    password:string,
+    password: string,
     username: string,
     age: string
 }
 //编辑用户信息
-export interface EditInfoInt{
-    id:number,
+export interface EditInfoInt {
+    id: number,
     name: string,
     username: string,
     age: string,
 }
 //删除用户
-export interface DelInfoInt{
-    id:number
+export interface DelInfoInt {
+    id: number
+}
+
+export interface IUserListRes {
+    data:IUserList[];
 }
 export class CUserList {
     //用户信息
@@ -47,15 +51,15 @@ export class CUserList {
     //显示新增用户
     isShowAdd: boolean = false
     //新增用户信息类型
-    addUserForm:IAddUser = {
+    addUserForm: IAddUser = {
         name: '',
-        password:'',
+        password: '',
         username: '',
         age: '',
     }
     addUserFormRef = ref<FormInstance>()
     //编辑用户信息
-    editInfo:EditInfoInt = {
+    editInfo: EditInfoInt = {
         id: 0,
         name: '',
         username: '',
@@ -67,8 +71,8 @@ export class CUserList {
 
     //显示删除用户
     isShowDel: boolean = false
-     //删除用户
-    delInfo:DelInfoInt = {
+    //删除用户
+    delInfo: DelInfoInt = {
         id: 0
     }
 }

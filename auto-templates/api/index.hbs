@@ -1,19 +1,19 @@
 import api from '@/http/config/api'
 
 export const getList = (data: any) => api.post<any>({
-    url: "/{{ properCase name }}/getList",
+    url: "/{{ lowerCase name }}/getList",
     data: data,
     showLoading: false
 })
 
 export const doEdit = (data: any) => api.post<any>({
-    url: "/{{ properCase name }}/doEdit",
+    url: "/{{ lowerCase name }}/doEdit",
     data: data,
     showLoading: false
 })
 
 export const doDelete = (data: any) => api.post<any>({
-    url: "/{{ properCase name }}/doDelete",
+    url: "/{{ lowerCase name }}/doDelete",
     data: data,
     showLoading: false
 })

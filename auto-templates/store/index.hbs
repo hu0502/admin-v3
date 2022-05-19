@@ -1,0 +1,19 @@
+import { defineStore } from "pinia";
+
+interface {{ camelCase name }}State {
+    params: string | null
+}
+export const use{{ properCase name }}Store = defineStore({
+    id: '{{ camelCase name }}',
+    state: (): {{ camelCase name }}State => ({
+        params: '',
+    }),
+    getters: {
+        getParams ():string | null {
+            return this.params
+        }
+    },
+    actions: {
+        
+    }
+})

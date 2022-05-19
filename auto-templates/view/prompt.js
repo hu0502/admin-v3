@@ -12,11 +12,11 @@ const connect = (param) => (answers) =>
         }).catch((err) => {
             throw err;
         });
-    });
+    })
 
 
 export const viewGenerator = {
-    description: 'generate vue template',
+    description: 'Create Vue modules, including template, api, store',
     prompts: [
         {
             type: 'input',
@@ -26,25 +26,35 @@ export const viewGenerator = {
         }
     ],
     actions: data => {
-        const name = '{{properCase name}}';
+        const pathCaseName = '{{pathCase name}}';
+        const lowerCaseName = '{{lowerCase name}}';
+
         const actions = [
+            connect(data.name),
             {
                 type: 'add',
-                path: `src/views/${name}View/${name}.vue`,
+                path: `src/views/${pathCaseName}.vue`,
                 templateFile: 'auto-templates/view/index.hbs',
                 data: {
-                    name: name
+                    name: pathCaseName
                 }
             },
             {
                 type: 'add',
-                path: `src/http/api/${name}/${name}.api.ts`,
+                path: `src/http/api/${lowerCaseName}.api.ts`,
                 templateFile: 'auto-templates/api/index.hbs',
                 data: {
-                    name: name
+                    name: lowerCaseName
                 }
             },
-            connect(data.name),
+            {
+                type: 'add',
+                path: `src/store/${lowerCaseName}.ts`,
+                templateFile: 'auto-templates/store/index.hbs',
+                data: {
+                    name: lowerCaseName
+                }
+            },
         ];
         return actions;
     },

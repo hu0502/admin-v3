@@ -2,7 +2,7 @@ import request from './jsconfig.js'
 
 export function apiTest(data) {
     return request({
-        url: '/Users/apiTest',
+        url: '/Generator/CreateModule',
         method: 'post',
         data,
     })

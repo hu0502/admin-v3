@@ -10,7 +10,7 @@ export const apiGenerator = {
         }
     ],
     actions: data => {
-        const name = '{{lowerCase name}}';
+        const name = '{{pathCase name}}';
         const actions = [
             {
                 type: 'add',

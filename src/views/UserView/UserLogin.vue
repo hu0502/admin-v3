@@ -24,7 +24,7 @@ import { userLogin } from "@/http/api/user/user.api";
 import { ElMessage } from "element-plus";
 
 export default defineComponent({
-    name: 'UserLogin',
+    name: 'userLogin',
     setup() {
         const router = useRouter();
         const route = useRoute()

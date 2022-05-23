@@ -23,14 +23,28 @@ export const viewGenerator = {
             name: 'name',
             message: 'template name please',
             validate: notEmpty('name')
-        }
+        },
+        // {
+        //     type: 'list',
+        //     name: 'sendRequest',
+        //     message: 'Whether to create a server application',
+        //     choices: [
+        //       {
+        //         name: 'Create vue modules(Create a server app at the same time)',
+        //         value: true
+        //       },
+        //       {
+        //         name: 'Create vue modules(Don\'t create a server app)',
+        //         value: false
+        //       }
+        //     ]
+        // },
     ],
     actions: data => {
-        const pathCaseName = '{{pathCase name}}';
+        const properCaseName = '{{properCase name}}';
         const lowerCaseName = '{{lowerCase name}}';
-
-        const actions = [
-            connect(data.name),
+        const pathCaseName = '{{pathCase name}}';
+        let actions = [
             {
                 type: 'add',
                 path: `src/views/${pathCaseName}.vue`,
@@ -39,23 +53,26 @@ export const viewGenerator = {
                     name: pathCaseName
                 }
             },
-            {
-                type: 'add',
-                path: `src/http/api/${lowerCaseName}.api.ts`,
-                templateFile: 'auto-templates/api/index.hbs',
-                data: {
-                    name: lowerCaseName
-                }
-            },
-            {
-                type: 'add',
-                path: `src/store/${lowerCaseName}.ts`,
-                templateFile: 'auto-templates/store/index.hbs',
-                data: {
-                    name: lowerCaseName
-                }
-            },
+            // {
+            //     type: 'add',
+            //     path: `src/http/api/${pathCaseName}.api.ts`,
+            //     templateFile: 'auto-templates/api/index.hbs',
+            //     data: {
+            //         name: pathCaseName
+            //     }
+            // },
+            // {
+            //     type: 'add',
+            //     path: `src/store/${pathCaseName}.ts`,
+            //     templateFile: 'auto-templates/store/index.hbs',
+            //     data: {
+            //         name: pathCaseName
+            //     }
+            // },
         ];
+        // if(data.sendRequest){
+        //     actions.push(connect(data.name))
+        // }
         return actions;
     },
 };

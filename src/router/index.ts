@@ -1,8 +1,7 @@
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { userRoute } from '@/router/modules/user';
 import { systemRoute } from '@/router/modules/system';
 import { orderRoute } from '@/router/modules/order';
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -14,14 +13,14 @@ const routes: RouteRecordRaw[] = [
     children: [
       userRoute,
       orderRoute,
-      systemRoute
+      systemRoute,
     ]
   },
   {
     path: '/UserLogin',
     name: 'UserLogin',
     component: () => import('@/views/UserView/UserLogin.vue')
-  }
+  },
 ]
 
 const router = createRouter({

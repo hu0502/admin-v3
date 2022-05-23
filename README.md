@@ -14,11 +14,8 @@ npm run serve
 + axios - 0.27.2
 + typescript - 4.5.5
 
-## 目录说明
-+ assets : 资源目录
-+ http : api
-+ types : 类、实例
-+ views : 页面模板
-+ utils : 工具
-+ router : 路由管理
-+ store : 状态管理
+## 代码生成
++ views:生成vue模块，包括view,store,api，php自动生成对应模块(可选)
++ api:生成api
++ store:生成store
++ components:生成公共组件
